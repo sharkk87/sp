@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Stroy-parser35 | Сравни цены в г. Вологда!</title>
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="container index-page">
+  <header class="main-header">
+    <a href="#" class="main-header__logo">
+      <img src="{{ url_for('static', filename='img/logo-main.png') }}" width="787" height="139" alt="Логотип компании">
+    </a>
+  </header>
+
+  <main class="main-page">
+    <h1 class="visually-hidden">Stroy-parser35</h1>
+
+    <form class="search-form" action="https://echo.htmlacademy.ru" method="post">
+      <div class="search-form__column">
+        <label for="search-text" class="visually-hidden">Строка поиска товара</label>
+        <input class="search-form__input-text" id="search-text" type="text" name="text" placeholder="Введите название товара">
+
+        <p class="search-form__text">
+          Например: <a href="{{ url_for('catalog') }}" class="search-form__example">Плиточный клей кнауф or knauf</a>
+          или <a href="catalog.html" class="search-form__example">Плиточный клей кнауф or knauf</a>
+        </p>
+      </div>
+
+      <button class="search-fo rm__button button" type="submit">Найти</button>
+    </form>
+  </main>
+
+  <footer class="main-footer">
+    <p class="main-footer__text">Stroy-parser35 - каталог цен магазинов г. Вологда. Мы не продаем и не доставляем товары, а помогаем купить по лучшей цене.</p>
+    <p class="main-footer__text">Наш сайт <b>НЕ ПРОДАЕТ</b> товары, а только публикует цены и другую информацию
+      магазинов. Если Вы хотите купить товар - связываетесь напрямую с магазином.</p>
+  </footer>
+</body>
+</html>

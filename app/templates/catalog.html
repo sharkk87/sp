@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Stroy-parser35 | Сравни цены в г. Вологда!</title>
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="catalog-container__wrapper">
+    <header class="catalog-header catalog-container">
+      <a href="{{ url_for('index') }}" class="catalog-header__logo">
+        <img src="{{ url_for('static', filename='img/logo-catalog.png') }}" width="300" height="76" alt="Логотип компании">
+      </a>
+
+      <form class="search-form" action="https://echo.htmlacademy.ru" method="post">
+        <div class="search-form__column">
+          <label for="search-text" class="visually-hidden">Строка поиска товара</label>
+          <input class="search-form__input-text" id="search-text" type="text" name="text"
+                 placeholder="Введите название товара">
+
+          <p class="search-form__text">
+            Например: <a href="catalog.html" class="search-form__example">Плиточный клей кнауф or knauf</a>
+            или <a href="catalog.html" class="search-form__example">Плиточный клей кнауф or knauf</a>
+          </p>
+        </div>
+
+        <button class="search-form__button button" type="submit">Найти</button>
+      </form>
+    </header>
+  </div>
+
+  <main class="catalog-page catalog-container">
+    <h1 class="visually-hidden">Каталог товаров</h1>
+
+    <h2 class="catalog-page__title">Плиточный клей кнауф or knauf <span class="catalog-page__amount">256</span></h2>
+
+    <ul class="catalog-list">
+      {% for item in data %}
+      <li class="catalog-list__item">
+        <h3 class="catalog-list__title">
+          {{ item.title }}
+        </h3>
+        <p class="catalog-list__price">{{ item.price }}</p>
+        <p class="catalog-list__shop">от {{ item.shop }}</p>
+        <a href="{{ item.url }}" class="catalog-list__button">в магазин</a>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <ul class="pagination">
+      <li class="pagination__item">
+        <a href="#">1</a>
+      </li>
+      <li class="pagination__item">
+        <a>2</a>
+      </li>
+      <li class="pagination__item">
+        <a href="#">3</a>
+      </li>
+      <li class="pagination__item">
+        <a href="#">4</a>
+      </li>
+    </ul>
+  </main>
+</body>
+</html>
