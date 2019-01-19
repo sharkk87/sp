@@ -14,10 +14,10 @@
         <img src="{{ url_for('static', filename='img/logo-catalog.png') }}" width="300" height="76" alt="Логотип компании">
       </a>
 
-      <form class="search-form" action="https://echo.htmlacademy.ru" method="post">
+      <form class="search-form" method="get">
         <div class="search-form__column">
           <label for="search-text" class="visually-hidden">Строка поиска товара</label>
-          <input class="search-form__input-text" id="search-text" type="text" name="text"
+          <input class="search-form__input-text" id="search-text" type="text" name="q" value="{{ request.args.get('q', '') }}"
                  placeholder="Введите название товара">
 
           <p class="search-form__text">
@@ -34,10 +34,10 @@
   <main class="catalog-page catalog-container">
     <h1 class="visually-hidden">Каталог товаров</h1>
 
-    <h2 class="catalog-page__title">Плиточный клей кнауф or knauf <span class="catalog-page__amount">256</span></h2>
+    <h2 class="catalog-page__title">{{ user_query }} <span class="catalog-page__amount">{{ data_total }}</span></h2>
 
     <ul class="catalog-list">
-      {% for item in data %}
+      {% for item in pages.items %}
       <li class="catalog-list__item">
         <h3 class="catalog-list__title">
           {{ item.title }}
@@ -50,18 +50,15 @@
     </ul>
 
     <ul class="pagination">
-      <li class="pagination__item">
-        <a href="#">1</a>
+      {% for page in pages.iter_pages() %}
+        {% if page == None %}{% endif %}
+      <li
+          {% if page == None %} class="visually-hidden"
+          {% else %} class="pagination__item"
+          {% endif %}>
+        <a href="./?q={{ user_query }}&page={{ page }}">{{ page }}</a>
       </li>
-      <li class="pagination__item">
-        <a>2</a>
-      </li>
-      <li class="pagination__item">
-        <a href="#">3</a>
-      </li>
-      <li class="pagination__item">
-        <a href="#">4</a>
-      </li>
+      {% endfor %}
     </ul>
   </main>
 </body>
