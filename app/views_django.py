@@ -1,11 +1,11 @@
-from django.shortcuts import render
-import pymysql
+# from django.shortcuts import render
+# import pymysql
+#
 
-
-def post_list(request):
-
-    return render(request, 'page/index.html')
-
+# def post_list(request):
+#
+#     return render(request, 'page/index.html')
+#
 
 def get_query(s):
     l = s.split()
@@ -39,28 +39,31 @@ def get_query(s):
             itog += "(" + s_l + i + r"%'" + s_or + s_l + v + r"%'" + ")" + s_and
 
     if itog[-1] == ')':
-        return itog + 'LIMIT 500;'
+        return itog + ' LIMIT 500;'
     else:
-        return itog[:-5] + 'LIMIT 500;'
+        return itog[:-5] + ' LIMIT 500;'
+
+print(get_query('Плит клей кнауф or knauf 20 or 25 кг'))
 
 
-def get_name(request):
-    q = request.GET['q']
-
-    connection = pymysql.connect(host='localhost',
-                                 user='root',
-                                 password='0000',
-                                 db='my_parser',
-                                 charset="utf8")
-
-    cur = connection.cursor()
-    sql = get_query(q)
-    cur.execute(sql)
-
-    # data['title'], data['name'], data['price'], data['available'], data['url']
-
-    data = [row for row in cur.fetchall()]
-
-    return render(request, 'page/search.html', {'data': data, 'query': q})
+#
+# def get_name(request):
+#     q = request.GET['q']
+#
+#     connection = pymysql.connect(host='localhost',
+#                                  user='root',
+#                                  password='0000',
+#                                  db='my_parser',
+#                                  charset="utf8")
+#
+#     cur = connection.cursor()
+#     sql = get_query(q)
+#     cur.execute(sql)
+#
+#     # data['title'], data['name'], data['price'], data['available'], data['url']
+#
+#     data = [row for row in cur.fetchall()]
+#
+#     return render(request, 'page/search.html', {'data': data, 'query': q})
 
 
