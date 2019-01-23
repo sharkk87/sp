@@ -4,6 +4,46 @@ from flask import render_template, request
 from sqlalchemy import and_, or_
 
 
+def get_query(s):
+    s = ' '.join(s.split()).lower()
+    s = s.split(' ')
+
+    result = []
+    list_index = 0
+    check_bracket = False
+    for i in s:
+        if i.startswith('('):
+            check_bracket = True
+            # print(list_index, i, check_bracket)
+            result.append([])
+
+        elif i.endswith(')'):
+            # print(list_index, i, check_bracket)
+            check_bracket = False
+
+        if check_bracket and i.startswith('('):
+            # print(list_index, i, check_bracket)
+            result[list_index].append(i[1:])
+
+        elif check_bracket:
+            # print(list_index, i, check_bracket)
+            result[list_index].append(i)
+
+        elif i.endswith(')'):
+            # print(list_index, i, check_bracket)
+            result[list_index].append(i[:-1])
+
+            list_index += 1
+
+        else:
+            # print(list_index, i, check_bracket)
+            result.append(i)
+
+            list_index += 1
+
+    return result
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -11,12 +51,11 @@ def index():
 
 @app.route('/catalog/')
 def catalog():
-    s = ['плит', 'клей', ['кнауф', 'knauf', 'knuf'], ['20', '25'], 'кг']
-
     q = request.args.get('q')
 
     if q:
-        user_query = q
+        user_query = get_query(q)
+        user_query_output = q
     else:
         user_query = 'Пустой запрос'
 
@@ -27,26 +66,47 @@ def catalog():
     else:
         page = 1
 
-    # data = models.Products.query.filter\
-    #     (
-    #         and_(models.Products.title.contains(i) for i in s if isinstance(i, str)),
-    #         or_(models.Products.title.contains(j) for i in s if isinstance(i, list) for j in i)
-    #     )
-
-    data = models.Products.query.filter\
-        (
+    count_or = [i for i, v in enumerate(user_query) if isinstance(v, list)]
+    if len(count_or) == 1:
+        data = models.Products.query.filter(
+            or_(
+                models.Products.title.contains(i) for i in user_query[count_or[0]]
+            ),
             and_(
-                models.Products.title.contains(s[0]),
-                models.Products.title.contains(s[1]),
-                or_(
-                    models.Products.title.contains(s[2][0]),
-                    models.Products.title.contains(s[2][1]),
-                    models.Products.title.contains(s[2][2])
-                ),
-                or_(
-                    models.Products.title.contains(s[3][0]),
-                    models.Products.title.contains(s[3][1])
-                )
+                models.Products.title.contains(i) for i in user_query if isinstance(i, str)
+            )
+        )
+    elif len(count_or) == 2:
+        data = models.Products.query.filter(
+            or_(
+                models.Products.title.contains(i) for i in user_query[count_or[0]]
+            ),
+            or_(
+                models.Products.title.contains(i) for i in user_query[count_or[1]]
+            ),
+            and_(
+                models.Products.title.contains(i) for i in user_query if isinstance(i, str)
+            )
+        )
+    elif len(count_or) == 3:
+        data = models.Products.query.filter(
+            or_(
+                models.Products.title.contains(i) for i in user_query[count_or[0]]
+            ),
+            or_(
+                models.Products.title.contains(i) for i in user_query[count_or[1]]
+            ),
+            or_(
+                models.Products.title.contains(i) for i in user_query[count_or[2]]
+            ),
+            and_(
+                models.Products.title.contains(i) for i in user_query if isinstance(i, str)
+            )
+        )
+    else:
+        data = models.Products.query.filter(
+            and_(
+                models.Products.title.contains(i) for i in user_query if isinstance(i, str)
             )
         )
 
@@ -54,4 +114,4 @@ def catalog():
 
     pages = data.paginate(page=page, per_page=64)
 
-    return render_template('catalog.html', data=data, pages=pages, data_total=data_total, user_query=user_query)
+    return render_template('catalog.html', data=data, pages=pages, data_total=data_total, user_query=user_query, user_query_output=user_query_output)

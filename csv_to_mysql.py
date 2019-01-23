@@ -4,7 +4,7 @@ from app import db
 from app.models import Products
 
 
-with open('/home/catus/PycharmProjects/SP35/shop/19012019_apline.csv') as file:
+with open('/home/catus/PycharmProjects/SP35/shop/22012019_upravdom.csv') as file:
     reader = csv.reader(file)
     data = [i for i in reader]
 

@@ -23,7 +23,7 @@
         <input class="search-form__input-text" id="search-text" type="text" name="text" placeholder="Введите название товара">
 
         <p class="search-form__text">
-          Например: <a href="{{ url_for('catalog') }}" class="search-form__example">Плиточный клей кнауф or knauf</a>
+          Например: <a href="{{ url_for('catalog', q='Плиточный клей (кнауф knauf)') }}" class="search-form__example">Плиточный клей кнауф or knauf</a>
           или <a href="catalog.html" class="search-form__example">Плиточный клей кнауф or knauf</a>
         </p>
       </div>
