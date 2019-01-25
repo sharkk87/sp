@@ -1,4 +1,5 @@
 .idea
+app/__init__.pyc
 venv
 __pycache__
 scrapers/shop_csv/*.csv

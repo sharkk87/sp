@@ -1,4 +1,5 @@
 import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import csv
 import time
 import os
@@ -13,9 +14,15 @@ class Scraper:
 
     @staticmethod
     def get_soup(url, verify=True):
-        html = requests.get(url, verify=verify)
-        soup = BeautifulSoup(html.text, 'lxml')
-        return soup
+        if verify:
+            html = requests.get(url)
+            soup = BeautifulSoup(html.text, 'lxml')
+            return soup
+        else:
+            requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+            html = requests.get(url, verify=verify)
+            soup = BeautifulSoup(html.text, 'lxml')
+            return soup
 
     @staticmethod
     def write_csv(name, data_list):
@@ -50,5 +57,5 @@ def get_name():
 
 
 def write_csv_in_file(data_list):
-    os.chdir('shop')
+    os.chdir('shop_csv')
     Scraper.write_csv('{}_{}.csv'.format(get_data(), get_name()), data_list)
