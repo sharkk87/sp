@@ -56,6 +56,7 @@ def main():
 
     # Create csv-file and write data
     write_csv_in_file(data_list)
+    print('Собрано данных: {}'.format(len(data_list)))
 
 
 if __name__ == '__main__':

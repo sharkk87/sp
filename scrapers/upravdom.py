@@ -58,6 +58,7 @@ def main():
                 data_list += get_data(soup)
 
     write_csv_in_file(data_list)
+    print('Собрано данных: {}'.format(len(data_list)))
 
 
 if __name__ == '__main__':
