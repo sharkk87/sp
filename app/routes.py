@@ -52,12 +52,17 @@ def index():
 @app.route('/catalog/')
 def catalog():
     q = request.args.get('q')
+    q = ' '.join(q.split()).lower()
 
-    if q:
+    if q == ' ':
+        user_query = get_query('Вы ничего не запросили!')
+        user_query_output = 'Вы ничего не запросили!'
+    elif q:
         user_query = get_query(q)
         user_query_output = q
     else:
-        user_query = 'Пустой запрос'
+        user_query = get_query('Вы ничего не запросили!')
+        user_query_output = 'Вы ничего не запросили!'
 
     page = request.args.get('page')
 

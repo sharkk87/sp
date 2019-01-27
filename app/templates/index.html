@@ -9,7 +9,7 @@
 </head>
 <body class="container index-page">
   <header class="main-header">
-    <a href="#" class="main-header__logo">
+    <a class="main-header__logo">
       <img src="{{ url_for('static', filename='img/logo-main.png') }}" width="787" height="139" alt="Логотип компании">
     </a>
   </header>
@@ -17,14 +17,15 @@
   <main class="main-page">
     <h1 class="visually-hidden">Stroy-parser35</h1>
 
-    <form class="search-form" action="https://echo.htmlacademy.ru" method="post">
+    <form class="search-form" action="{{ url_for('catalog') }}" method="get">
       <div class="search-form__column">
         <label for="search-text" class="visually-hidden">Строка поиска товара</label>
-        <input class="search-form__input-text" id="search-text" type="text" name="text" placeholder="Введите название товара">
+        <input class="search-form__input-text" id="search-text" type="text" name="q" value="{{ request.args.get('q', '') }}"
+                 placeholder="Введите название товара">
 
         <p class="search-form__text">
-          Например: <a href="{{ url_for('catalog', q='Плиточный клей (кнауф knauf)') }}" class="search-form__example">Плиточный клей кнауф or knauf</a>
-          или <a href="catalog.html" class="search-form__example">Плиточный клей кнауф or knauf</a>
+          Например: <a href="{{ url_for('catalog', q='клей боларс стандарт 25 кг') }}" class="search-form__example">клей боларс стандарт 25 кг</a>
+          или <a href="{{ url_for('catalog', q='(кнауф knauf) (fliesen флизен) (плюс plus) 25 кг') }}" class="search-form__example">(кнауф knauf) (fliesen флизен) (плюс plus) 25 кг</a>
         </p>
       </div>
 

@@ -1,12 +1,12 @@
 #!/bin/bash
 . "../venv/bin/activate"
-python upravdom.py >> shop_csv/log_apline.txt &
-python upravdom.py >> shop_csv/log_bober.txt &
-python upravdom.py >> shop_csv/log_centrsm.txt &
-python upravdom.py >> shop_csv/log_kontinent.txt &
-python upravdom.py >> shop_csv/log_lider.txt &
-python upravdom.py >> shop_csv/log_sanvol.txt &
-python upravdom.py >> shop_csv/log_tdsot.txt &
-python upravdom.py >> shop_csv/log_upravdom.txt &
+python apline.py >> apline.log &
+python bober.py >> bober.log &
+python centrsm.py >> centrsm.log &
+python kontinent.py >> kontinent.log &
+python lider.py >> lider.log &
+python sanvol.py >> sanvol.log &
+python tdsot.py >> tdsot.log &
+python upravdom.py >> upravdom.log &
 wait
-python csv_to_mysql.py >> log.txt
+python csv_to_mysql.py >> csv_to_mysql.log

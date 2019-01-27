@@ -21,8 +21,8 @@
                  placeholder="Введите название товара">
 
           <p class="search-form__text">
-            Например: <a href="catalog.html" class="search-form__example">Плиточный клей кнауф or knauf</a>
-            или <a href="catalog.html" class="search-form__example">Плиточный клей кнауф or knauf</a>
+            Например: <a href="{{ url_for('catalog', q='клей боларс стандарт 25 кг') }}" class="search-form__example">клей боларс стандарт 25 кг</a>
+            или <a href="{{ url_for('catalog', q='(кнауф knauf) (fliesen флизен) (плюс plus) 25 кг') }}" class="search-form__example">(кнауф knauf) (fliesen флизен) (плюс plus) 25 кг</a>
           </p>
         </div>
 
@@ -37,6 +37,35 @@
     <h2 class="catalog-page__title">{{ user_query_output }} <span class="catalog-page__amount">{{ data_total }}</span></h2>
 
     <ul class="catalog-list">
+      <li class="catalog-list__item">
+        <h3 class="catalog-list__title">Клей</h3>
+        <img src="https://lider35.ru/upload/iblock/ace/ace77c85729321d27a7aa3e389b47c6f.png" width="100%">
+        <p class="catalog-list__price">2000</p>
+        <p class="catalog-list__shop">от Феди</p>
+        <a href="https://ya.ru" class="catalog-list__button">в магазин</a>
+      </li>
+      <li class="catalog-list__item">
+        <h3 class="catalog-list__title">Клей</h3>
+        <img src="http://sanvol.ru/upload/shop_1/4/8/0/item_4801070/small_shop_items_catalog_image4801070.jpg" width="100%">
+        <p class="catalog-list__price">2000</p>
+        <p class="catalog-list__shop">от Феди</p>
+        <a href="https://ya.ru" class="catalog-list__button">в магазин</a>
+      </li>
+      <li class="catalog-list__item">
+        <h3 class="catalog-list__title">Клей</h3>
+        <img src="https://vologda.upravdom.com/upload/resize_cache/iblock/9da/350_350_118534edb6e0f442f3617906428d1ea26/PFX014.SHA160.6441763B8334DA8A15184A613E33D9836A81E556.jpg" width="100%">
+        <p class="catalog-list__price">2000</p>
+        <p class="catalog-list__shop">от Феди</p>
+        <a href="https://ya.ru" class="catalog-list__button">в магазин</a>
+      </li>
+      <li class="catalog-list__item">
+        <h3 class="catalog-list__title">Клей</h3>
+        <img src="https://www.apline35.ru/upload/resize_cache/iblock/433/210_170_140cd750bba9870f18aada2478b24840a/433dc256ed460f37e55be1256f208bbb.jpg" width="100%">
+        <p class="catalog-list__price">2000</p>
+        <p class="catalog-list__shop">от Феди</p>
+        <a href="https://ya.ru" class="catalog-list__button">в магазин</a>
+      </li>
+
       {% for item in pages.items %}
       <li class="catalog-list__item">
         <h3 class="catalog-list__title">

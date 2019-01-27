@@ -1,4 +1,6 @@
 import csv, os, glob
+import sys
+sys.path.append('../')
 
 from datetime import datetime
 from app import db

@@ -8,6 +8,10 @@ body {
 }
 
 .index-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
   background: url("../img/main-background.jpg") no-repeat fixed;
   background-position: bottom right;
   background-size: cover;
@@ -121,7 +125,7 @@ input[type="radio"].visually-hidden {
 }
 
 .main-footer {
-  margin-top: 340px;
+  margin-top: auto;
   padding-left: 100px;
   padding-bottom: 50px;
 }
