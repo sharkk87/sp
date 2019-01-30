@@ -39,7 +39,7 @@
     <ul class="catalog-list">
       <li class="catalog-list__item">
         <h3 class="catalog-list__title">Клей</h3>
-        <img src="https://lider35.ru/upload/iblock/ace/ace77c85729321d27a7aa3e389b47c6f.png" width="100%">
+        <img src="{{ url_for('static', filename='img/no_photo.png') }}" width="100%">
         <p class="catalog-list__price">2000</p>
         <p class="catalog-list__shop">от Феди</p>
         <a href="https://ya.ru" class="catalog-list__button">в магазин</a>
@@ -71,6 +71,11 @@
         <h3 class="catalog-list__title">
           {{ item.title }}
         </h3>
+        {% if item.url_image == "" %}
+        <img src="{{ url_for('static', filename='img/no-image.jpg') }}" class="catalog-list__image">
+        {% else %}
+        <img src="{{ item.url_image }}" class="catalog-list__image">
+        {% endif %}
         <p class="catalog-list__price">{{ item.price }}</p>
         <p class="catalog-list__shop">от {{ item.shop }}</p>
         <a href="{{ item.url }}" class="catalog-list__button">в магазин</a>
@@ -80,7 +85,7 @@
 
     <ul class="pagination">
       {% for page in pages.iter_pages() %}
-        {% if page == None %}{% endif %}
+        <!--{% if page == None %}{% endif %}-->
       <li
           {% if page == None %} class="visually-hidden"
           {% else %} class="pagination__item"

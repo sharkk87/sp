@@ -8,3 +8,4 @@ class Products(db.Model):
     price = db.Column(db.String(25))
     available = db.Column(db.String(20))
     url = db.Column(db.String(400))
+    url_image = db.Column(db.String(250))

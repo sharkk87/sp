@@ -49,11 +49,14 @@ def main():
                 url = i.find('div', class_='padd').find('a').get('href')
                 url = 'http://www.apline35.ru' + url
 
+                url_image = i.find('div', class_='pic').find('img').get('src')
+                url_image = 'http://www.apline35.ru' + url_image
+
                 price = i.find('div', class_='soloprice').text.strip()
 
                 available = i.find('div', class_='compare_and_stores').find('div', class_='stores').text.strip()
 
-                data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url}
+                data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url, 'url_image': url_image}
                 data_list.append(data)
 
     # Create csv-file and write data

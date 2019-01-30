@@ -32,7 +32,8 @@ class Scraper:
                               data['name'],
                               data['price'],
                               data['available'],
-                              data['url'])) for data in data_list]
+                              data['url'],
+                              data['url_image'])) for data in data_list]
 
 
 def timer(func):

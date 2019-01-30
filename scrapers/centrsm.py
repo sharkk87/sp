@@ -37,11 +37,14 @@ def main():
 
                 url = 'https://dom35.ru' + i.find('a').get('href').strip()
 
+                url_image = i.find('div', class_='image_wrap').find('img').get('src')
+                url_image = 'https://dom35.ru' + url_image
+
                 price = i.find('meta', itemprop='price').get('content')
 
                 available = i.find('div', class_='stock').text.strip()
 
-                data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url}
+                data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url, 'url_image': url_image}
                 data_list.append(data)
 
     # Create csv-file and write data

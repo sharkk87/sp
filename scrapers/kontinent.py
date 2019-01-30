@@ -39,6 +39,13 @@ def main():
                 url = URL + i.find('div').find('a').get('href').strip()
 
                 try:
+                    url_image = i.find('a', class_='for_img').find('img').get('src')
+                    url_image = URL + url_image
+                except AttributeError:
+                    url_image = ''
+
+
+                try:
                     price = i.find('span', class_='price_one').text.strip()
                 except AttributeError:
                     price = i.find('span', class_='price_new').text.strip()
@@ -48,7 +55,7 @@ def main():
                 else:
                     available = 'Под заказ'
 
-                data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url}
+                data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url, 'url_image': url_image}
                 data_list.append(data)
 
     # Create csv-file and write data

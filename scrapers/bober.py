@@ -58,6 +58,12 @@ def main():
                 url = i.find('a', class_='body').get('href')
                 url = 'http://magazinbober.ru' + url + CITY
 
+                try:
+                    url_image = i.find('span', class_='img-wrap').find('img').get('src')
+                    url_image = 'http://magazinbober.ru' + url_image
+                except AttributeError:
+                    url_image = ''
+
                 if i.find('span', class_='price'):
                     price = i.find('span', class_='price').text.strip()
                     available = 'В наличии'
@@ -69,7 +75,7 @@ def main():
                     price = ''
                     available = 'Нет в наличии'
 
-                data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url}
+                data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url, 'url_image': url_image}
                 data_list.append(data)
 
     # Create csv-file and write data

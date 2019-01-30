@@ -31,9 +31,12 @@ def get_data(soup, title='Сантехника', available='В наличии'):
 
         url = URL[:-1] + item.find('a', class_='next').get('href')
 
+        url_image = item.find('div', class_='img').find('img').get('src')
+        url_image = URL[:-1] + url_image
+
         price = item.find('div', class_='price').text
 
-        data_item = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url}
+        data_item = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url, 'url_image': url_image}
         data_items.append(data_item)
     return data_items
 

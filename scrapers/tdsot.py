@@ -37,9 +37,12 @@ def main():
 
                 url = URL[:19] + i.find('td', class_='art name').find('a').get('href')
 
+                url_image = i.find('td', class_='pic').find('img').get('src')
+                url_image = 'http://www.tdsot.ru' + url_image
+
                 price = i.find('td', class_='price').find('b').text
 
-                data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url}
+                data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url, 'url_image': url_image}
                 data_list.append(data)
 
     # Create csv-file and write data

@@ -44,6 +44,9 @@ def main():
                 url = i.find('a', class_='qb_corner').get('href')
                 url = 'https://lider35.ru' + url
 
+                url_image = i.find('div', class_='catalog-item-picture').find('img', class_='image').get('src')
+                url_image = 'https://lider35.ru' + url_image
+
                 price = i.find('div', class_='price').text.strip()
 
                 try:
@@ -51,7 +54,7 @@ def main():
                 except:
                     available = i.find('div', class_='catalog-article-quantity').get_text().strip()
 
-                data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url}
+                data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url, 'url_image': url_image}
                 data_list.append(data)
 
     # Create csv-file and write data

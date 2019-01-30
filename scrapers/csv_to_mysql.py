@@ -63,7 +63,7 @@ for path in files:
         total += len(data)
 
         for i in data:
-            db.session.add(Products(shop=i[0], title=i[1], price=i[2], available=i[3], url=i[4]))
+            db.session.add(Products(shop=i[0], title=i[1], price=i[2], available=i[3], url=i[4], url_image=i[5]))
 
     print('С файла {} загружено {} данных'.format(path.split('/')[-1], len(data)))
 

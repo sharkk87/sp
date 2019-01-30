@@ -31,10 +31,13 @@ def get_data(soup, title='УправДом', available='В наличии'):
 
         url = URL + item.find('a', itemprop='url').get('href')
 
+        url_image = item.find('div', class_='image-wrapper').find('img').get('src')
+        url_image = URL + url_image
+
         price = item.find('div', class_='new-price').text.split()
         price = ' '.join(price)
 
-        data_item = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url}
+        data_item = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url, 'url_image': url_image}
         data_items.append(data_item)
 
     return data_items
