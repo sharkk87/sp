@@ -44,7 +44,6 @@ def main():
                 except AttributeError:
                     url_image = ''
 
-
                 try:
                     price = i.find('span', class_='price_one').text.strip()
                 except AttributeError:

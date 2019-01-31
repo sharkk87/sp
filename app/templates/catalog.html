@@ -37,35 +37,6 @@
     <h2 class="catalog-page__title">{{ user_query_output }} <span class="catalog-page__amount">{{ data_total }}</span></h2>
 
     <ul class="catalog-list">
-      <li class="catalog-list__item">
-        <h3 class="catalog-list__title">Клей</h3>
-        <img src="{{ url_for('static', filename='img/no_photo.png') }}" width="100%">
-        <p class="catalog-list__price">2000</p>
-        <p class="catalog-list__shop">от Феди</p>
-        <a href="https://ya.ru" class="catalog-list__button">в магазин</a>
-      </li>
-      <li class="catalog-list__item">
-        <h3 class="catalog-list__title">Клей</h3>
-        <img src="http://sanvol.ru/upload/shop_1/4/8/0/item_4801070/small_shop_items_catalog_image4801070.jpg" width="100%">
-        <p class="catalog-list__price">2000</p>
-        <p class="catalog-list__shop">от Феди</p>
-        <a href="https://ya.ru" class="catalog-list__button">в магазин</a>
-      </li>
-      <li class="catalog-list__item">
-        <h3 class="catalog-list__title">Клей</h3>
-        <img src="https://vologda.upravdom.com/upload/resize_cache/iblock/9da/350_350_118534edb6e0f442f3617906428d1ea26/PFX014.SHA160.6441763B8334DA8A15184A613E33D9836A81E556.jpg" width="100%">
-        <p class="catalog-list__price">2000</p>
-        <p class="catalog-list__shop">от Феди</p>
-        <a href="https://ya.ru" class="catalog-list__button">в магазин</a>
-      </li>
-      <li class="catalog-list__item">
-        <h3 class="catalog-list__title">Клей</h3>
-        <img src="https://www.apline35.ru/upload/resize_cache/iblock/433/210_170_140cd750bba9870f18aada2478b24840a/433dc256ed460f37e55be1256f208bbb.jpg" width="100%">
-        <p class="catalog-list__price">2000</p>
-        <p class="catalog-list__shop">от Феди</p>
-        <a href="https://ya.ru" class="catalog-list__button">в магазин</a>
-      </li>
-
       {% for item in pages.items %}
       <li class="catalog-list__item">
         <h3 class="catalog-list__title">
@@ -76,7 +47,13 @@
         {% else %}
         <img src="{{ item.url_image }}" class="catalog-list__image">
         {% endif %}
-        <p class="catalog-list__price">{{ item.price }}</p>
+
+        {% if item.price %}
+        <p class="catalog-list__price">{{ '{:.2f}'.format(item.price) }} &#8381</p>
+        {% else %}
+        <p class="catalog-list__price">По запросу!</p>
+        {% endif %}
+
         <p class="catalog-list__shop">от {{ item.shop }}</p>
         <a href="{{ item.url }}" class="catalog-list__button">в магазин</a>
       </li>
@@ -85,12 +62,16 @@
 
     <ul class="pagination">
       {% for page in pages.iter_pages() %}
-        <!--{% if page == None %}{% endif %}-->
       <li
           {% if page == None %} class="visually-hidden"
+          {% elif page == pages.page %} class="pagination__item pagination__item--active"
           {% else %} class="pagination__item"
           {% endif %}>
-        <a href="./?q={{ user_query_output }}&page={{ page }}">{{ page }}</a>
+        <a
+            {% if page == pages.page %}
+            {% else %} href="./?q={{ user_query_output }}&page={{ page }}"
+            {% endif %}>{{ page }}
+        </a>
       </li>
       {% endfor %}
     </ul>

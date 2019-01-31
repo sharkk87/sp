@@ -80,7 +80,7 @@ def catalog():
             and_(
                 models.Products.title.contains(i) for i in user_query if isinstance(i, str)
             )
-        )
+        ).order_by(models.Products.price)
     elif len(count_or) == 2:
         data = models.Products.query.filter(
             or_(
@@ -92,7 +92,7 @@ def catalog():
             and_(
                 models.Products.title.contains(i) for i in user_query if isinstance(i, str)
             )
-        )
+        ).order_by(models.Products.price)
     elif len(count_or) == 3:
         data = models.Products.query.filter(
             or_(
@@ -107,13 +107,13 @@ def catalog():
             and_(
                 models.Products.title.contains(i) for i in user_query if isinstance(i, str)
             )
-        )
+        ).order_by(models.Products.price)
     else:
         data = models.Products.query.filter(
             and_(
                 models.Products.title.contains(i) for i in user_query if isinstance(i, str)
             )
-        )
+        ).order_by(models.Products.price)
 
     data_total = len(data.all())
 

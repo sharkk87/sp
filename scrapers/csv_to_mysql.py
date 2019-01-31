@@ -50,6 +50,26 @@ def get_last_files():
     return last_list
 
 
+def fix_price(s):
+    s = s.replace(',', '.')
+    s = s.split()
+
+    price = []
+    for i in s:
+        try:
+            float(i)
+            price.append(i)
+        except ValueError:
+            pass
+
+    if price:
+        price = ''.join(price)
+    else:
+        price = '0'
+
+    return price
+
+
 files = get_last_files()
 total = 0
 
@@ -63,9 +83,9 @@ for path in files:
         total += len(data)
 
         for i in data:
-            db.session.add(Products(shop=i[0], title=i[1], price=i[2], available=i[3], url=i[4], url_image=i[5]))
+            db.session.add(Products(shop=i[0], title=i[1], price=fix_price(i[2]), available=i[3], url=i[4], url_image=i[5]))
 
-    print('С файла {} загружено {} данных'.format(path.split('/')[-1], len(data)))
+        print('С файла {} загружено {} данных'.format(path.split('/')[-1], len(data)))
 
 print('ИТОГО: {}'.format(total))
 print('#'*50)

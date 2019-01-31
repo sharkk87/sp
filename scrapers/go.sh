@@ -1,5 +1,6 @@
 #!/bin/bash
 . "../venv/bin/activate"
+wait
 python apline.py >> apline.log &
 python bober.py >> bober.log &
 python centrsm.py >> centrsm.log &
