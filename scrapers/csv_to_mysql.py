@@ -86,6 +86,7 @@ for path in files:
             db.session.add(Products(shop=i[0], title=i[1], price=fix_price(i[2]), available=i[3], url=i[4], url_image=i[5]))
 
         print('С файла {} загружено {} данных'.format(path.split('/')[-1], len(data)))
+        db.session.commit()
 
 print('ИТОГО: {}'.format(total))
 print('#'*50)
