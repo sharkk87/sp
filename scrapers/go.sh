@@ -1,7 +1,6 @@
 #!/bin/bash
 cd /home/iliya/stroy-parser35/scrapers
 . "../venv/bin/activate"
-cd /home/iliya/stroy-parser35/scrapers
 wait
 python apline.py >> apline.log &
 python bober.py >> bober.log &
