@@ -7,4 +7,3 @@ scrapers/*.log
 sp35.ini
 wsgi.py
 config.py
-
