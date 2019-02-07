@@ -4,3 +4,7 @@ venv
 __pycache__
 scrapers/shop_csv/*.csv
 scrapers/*.log
+sp35.ini
+wsgi.py
+config.py
+
