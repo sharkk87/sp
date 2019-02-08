@@ -1,47 +1,107 @@
-import os, time
+import os
 
-from module import Scraper, timer, write_csv_in_file
+from module import timer, write_csv_in_file
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
-chrome_options = Options()
-# chrome_options.add_argument("--disable-extensions")
-# chrome_options.add_argument("--disable-gpu")
-# chrome_options.add_argument("--headless")
+from selenium.common.exceptions import NoSuchElementException
 
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 URL = 'http://evrostroy.biz/'
 
+chrome_options = Options()
+# chrome_options.add_argument('--disable-extensions')
+# chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('window-size=1200,1100')
+
 driver = webdriver.Chrome(BASEDIR + '/chromedriver', chrome_options=chrome_options)
-driver.get(URL)
-
-html = driver.page_source
-soup = BeautifulSoup(html, 'lxml')
-text = soup.find('div', class_='ev-select').text
-
-co = len(driver.find_elements_by_xpath("//div[@class='catalog-menu']/*/li[@class='action']/following-sibling::li/a"))
-
-for i in range(co):
-    print(i, co)
-    driver.find_element_by_class_name('catalog-menu-block').click()
-
-    a = driver.find_elements_by_xpath("//ul[@class='first-level']/li[@class='action']/following-sibling::li/a")[i]
-
-    print(a.get_attribute('href'))
-    driver.execute_script("arguments[0].scrollIntoView();", a)
-    a.click()
-
-    for i in range(10):
-        time.sleep(1)
-        b = driver.find_element_by_xpath("//div[@class='pages']/a[@class='btn white next']")
-        print(b.get_attribute('class'))
-        driver.execute_script("arguments[0].scrollIntoView();", b)
-        time.sleep(1)
-        b.click()
+driver.implicitly_wait(10)
 
 
+def check_contains_class(name):
+    try:
+        driver.find_element_by_class_name(name)
+        return True
+    except NoSuchElementException:
+        return False
 
 
-driver.close()
-driver.quit()
+@timer
+def main():
+    driver.get(URL)
+    print(driver.find_element_by_class_name('cityPhone').text)
+
+    count_main_links = len(driver.find_elements_by_xpath("//div[@class='catalog-menu']/*/li[@class='action']/following-sibling::li/a"))
+
+    data_list = []
+    title = 'Еврострой'
+    for i in range(count_main_links):
+        driver.find_element_by_class_name('catalog-menu-block').click()
+
+        link = driver.find_elements_by_xpath("//ul[@class='first-level']/li[@class='action']/following-sibling::li/a")[i]
+
+        url = link.get_attribute('href')
+        print(url)
+
+        driver.execute_script('arguments[0].scrollIntoView();', link)
+        link.click()
+
+        if check_contains_class('catalog-items-list'):
+            button_next = driver.find_elements_by_xpath("//div[@class='pages']/a")[-2]
+            disabled = button_next.get_attribute('class').split()[-1]
+            count = 1
+            while disabled == 'next':
+                driver.execute_script("arguments[0].scrollIntoView();", button_next)
+                button_next.click()
+
+                button_next = driver.find_elements_by_xpath("//div[@class='pages']/a")[-2]
+                disabled = driver.find_elements_by_xpath("//div[@class='pages']/a")[-2].get_attribute('class').split()[-1]
+                count += 1
+
+            print(count)
+            html = driver.page_source
+            soup = BeautifulSoup(html, 'lxml')
+
+            # print(soup.find('p', class_='cityPhone').text)
+
+            data = soup.find('div', class_='catalog-items-list').find_all('div', class_='item-list-block')
+
+            for item in data:
+                name = item.find('div', class_='name').text.split()
+                name = ' '.join(name)
+
+                url = item.find('div', class_='name').find('a').get('href')
+                url = URL[:-1] + url + '?sx_city=Вологда'
+
+                url_image = item.find('div', class_='img').get('style').split('"')[1]
+                url_image = URL[:-1] + url_image
+                # print(url_image)
+
+                try:
+                    price = item.find('div', class_='price').find('em').next_element.strip()
+                except AttributeError:
+                    price = ''
+
+                available = item.find('div', class_='to-basket').find('span', class_='add-to-basket-popup').previous_element
+                if available == 'Заказать':
+                    available = 'Нет в наличии'
+                elif available == 'В корзину':
+                    available = 'В наличии'
+
+                data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url, 'url_image': url_image}
+                data_list.append(data)
+        else:
+            print('No data this page: {}'.format(url))
+
+    # Create csv-file and write data
+    write_csv_in_file(data_list)
+    print('Собрано данных: {}'.format(len(data_list)))
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    finally:
+        driver.close()
+        driver.quit()
