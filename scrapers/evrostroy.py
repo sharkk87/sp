@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
-URL = 'http://evrostroy.biz/'
+URL = 'http://evrostroy.biz/?sx_city=Вологда'
 
 chrome_options = Options()
 # chrome_options.add_argument('--disable-extensions')
@@ -18,6 +18,8 @@ chrome_options.add_argument('window-size=1200,1100')
 driver = webdriver.Chrome(BASEDIR + '/chromedriver', chrome_options=chrome_options)
 driver.implicitly_wait(10)
 
+data_list = []
+
 
 def check_contains_class(name):
     try:
@@ -27,6 +29,42 @@ def check_contains_class(name):
         return False
 
 
+def get_data():
+    global data_list
+    title = 'Еврострой'
+
+    html = driver.page_source
+    soup = BeautifulSoup(html, 'lxml')
+
+    # print(soup.find('p', class_='cityPhone').text)
+
+    data = soup.find('div', class_='catalog-items-list').find_all('div', class_='item-list-block')
+
+    for item in data:
+        name = item.find('div', class_='name').text.split()
+        name = ' '.join(name)
+
+        url = item.find('div', class_='name').find('a').get('href')
+        url = URL[:-1] + url + '?sx_city=Вологда'
+
+        url_image = item.find('div', class_='img').get('style').split('"')[1]
+        url_image = URL[:-1] + url_image
+
+        try:
+            price = item.find('div', class_='price').find('em').next_element.strip()
+        except AttributeError:
+            price = ''
+
+        available = item.find('div', class_='to-basket').find('span', class_='add-to-basket-popup').previous_element
+        if available == 'Заказать':
+            available = 'Нет в наличии'
+        elif available == 'В корзину':
+            available = 'В наличии'
+
+        data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url, 'url_image': url_image}
+        data_list.append(data)
+
+
 @timer
 def main():
     driver.get(URL)
@@ -34,15 +72,10 @@ def main():
 
     count_main_links = len(driver.find_elements_by_xpath("//div[@class='catalog-menu']/*/li[@class='action']/following-sibling::li/a"))
 
-    data_list = []
-    title = 'Еврострой'
     for i in range(count_main_links):
         driver.find_element_by_class_name('catalog-menu-block').click()
-
         link = driver.find_elements_by_xpath("//ul[@class='first-level']/li[@class='action']/following-sibling::li/a")[i]
-
         url = link.get_attribute('href')
-        print(url)
 
         driver.execute_script('arguments[0].scrollIntoView();', link)
         link.click()
@@ -50,47 +83,17 @@ def main():
         if check_contains_class('catalog-items-list'):
             button_next = driver.find_elements_by_xpath("//div[@class='pages']/a")[-2]
             disabled = button_next.get_attribute('class').split()[-1]
-            count = 1
+
+            get_data()
+
             while disabled == 'next':
                 driver.execute_script("arguments[0].scrollIntoView();", button_next)
                 button_next.click()
 
                 button_next = driver.find_elements_by_xpath("//div[@class='pages']/a")[-2]
                 disabled = driver.find_elements_by_xpath("//div[@class='pages']/a")[-2].get_attribute('class').split()[-1]
-                count += 1
 
-            print(count)
-            html = driver.page_source
-            soup = BeautifulSoup(html, 'lxml')
-
-            # print(soup.find('p', class_='cityPhone').text)
-
-            data = soup.find('div', class_='catalog-items-list').find_all('div', class_='item-list-block')
-
-            for item in data:
-                name = item.find('div', class_='name').text.split()
-                name = ' '.join(name)
-
-                url = item.find('div', class_='name').find('a').get('href')
-                url = URL[:-1] + url + '?sx_city=Вологда'
-
-                url_image = item.find('div', class_='img').get('style').split('"')[1]
-                url_image = URL[:-1] + url_image
-                # print(url_image)
-
-                try:
-                    price = item.find('div', class_='price').find('em').next_element.strip()
-                except AttributeError:
-                    price = ''
-
-                available = item.find('div', class_='to-basket').find('span', class_='add-to-basket-popup').previous_element
-                if available == 'Заказать':
-                    available = 'Нет в наличии'
-                elif available == 'В корзину':
-                    available = 'В наличии'
-
-                data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url, 'url_image': url_image}
-                data_list.append(data)
+                get_data()
         else:
             print('No data this page: {}'.format(url))
 

@@ -225,6 +225,7 @@ input[type="radio"].visually-hidden {
   margin-bottom: auto;
 
   object-fit: contain;
+  height: 150px;
 }
 
 .catalog-list__price {

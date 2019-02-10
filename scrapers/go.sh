@@ -10,5 +10,6 @@ python lider.py >> lider.log &
 python sanvol.py >> sanvol.log &
 python tdsot.py >> tdsot.log &
 python upravdom.py >> upravdom.log &
+python evrostroy.py >> evrostroy.log &
 wait
 python csv_to_mysql.py >> csv_to_mysql.log
