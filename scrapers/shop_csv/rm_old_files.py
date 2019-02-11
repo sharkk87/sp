@@ -9,12 +9,12 @@ delete_files = []
 for file in all_files:
     date_file = file.split('_')[0]
     date_file = datetime.strptime(date_file, '%d%m%Y')
-    if datetime.now() - date_file > timedelta(days=30):
+    if datetime.now() - date_file > timedelta(days=4):
         delete_files.append(file)
 
 if not delete_files:
     print('There is nothing delete!')
-else:        
+else:
     for file in delete_files:
         os.remove(file)
         print(file, 'Deleted')

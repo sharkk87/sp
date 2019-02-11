@@ -7,7 +7,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
-URL = 'http://evrostroy.biz/?sx_city=Вологда'
+URL = 'http://evrostroy.biz/'
+CITY = '?sx_city=Вологда'
 
 chrome_options = Options()
 # chrome_options.add_argument('--disable-extensions')
@@ -45,7 +46,7 @@ def get_data():
         name = ' '.join(name)
 
         url = item.find('div', class_='name').find('a').get('href')
-        url = URL[:-1] + url + '?sx_city=Вологда'
+        url = URL[:-1] + url + CITY
 
         url_image = item.find('div', class_='img').get('style').split('"')[1]
         url_image = URL[:-1] + url_image
@@ -67,7 +68,7 @@ def get_data():
 
 @timer
 def main():
-    driver.get(URL)
+    driver.get(URL + CITY)
     print(driver.find_element_by_class_name('cityPhone').text)
 
     count_main_links = len(driver.find_elements_by_xpath("//div[@class='catalog-menu']/*/li[@class='action']/following-sibling::li/a"))
