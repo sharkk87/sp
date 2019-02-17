@@ -12,5 +12,6 @@ python tdsot.py >> tdsot.log &
 wait
 python upravdom.py >> upravdom.log ;
 python evrostroy.py >> evrostroy.log ;
+python akson.py >> akson.log ;
 wait
 python csv_to_mysql.py >> csv_to_mysql.log
