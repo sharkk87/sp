@@ -15,7 +15,7 @@ BAD_URLS = ['Постер на заказ', 'Автотовары', 'Спецп�
 
 chrome_options = Options()
 # chrome_options.add_argument('--disable-extensions')
-# chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--disable-gpu')
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('window-size=1200,1100')
 
