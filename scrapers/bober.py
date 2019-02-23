@@ -1,19 +1,19 @@
 from module import timer, Scraper, write_csv_in_file
 
 URL = 'http://magazinbober.ru/catalog/'
-CITY = '?geo=312186'
-COUNT = '&count=100&'
+CITY = 'gorod-vologda/'
+COUNT = '?count=100&'
 
 
 def check_group(soup):
-    if soup.find('div', class_='main').find('ul', class_='subrubrics'):
+    if soup.find('ul', class_='subrubrics'):
         return True
     else:
         return False
 
 
 def make_url(url):
-    return 'http://magazinbober.ru' + url.find('a').get('href') + CITY + COUNT
+    return 'http://magazinbober.ru' + url.find('a').get('href').split('gorod')[0] + CITY + COUNT
 
 
 @timer
@@ -32,7 +32,7 @@ def main():
             [main_links.append(make_url(url)) for url in sub_links]
         else:
             try:
-                all_links[link] = int(soup.find('ul', class_='pager').find_all('li')[-2].text)
+                all_links[link] = int(soup.find('ul', class_='pager').get('data-max'))
             except AttributeError:
                 all_links[link] = 1
             # print(link, all_links[link])
@@ -42,7 +42,7 @@ def main():
     title = 'Бобёр'
     for page, total_page in all_links.items():
         for page_num in range(1, total_page + 1):
-            page_data = page + 'PAGEN_1=' + str(page_num)
+            page_data = page + 'PAGEN_2=' + str(page_num)
             soup = Scraper.get_soup(page_data)
 
             try:
@@ -56,7 +56,7 @@ def main():
                 name = ' '.join(name)
 
                 url = i.find('a', class_='body').get('href')
-                url = 'http://magazinbober.ru' + url + CITY
+                url = 'http://magazinbober.ru' + url
 
                 try:
                     url_image = i.find('span', class_='img-wrap').find('img').get('src')
