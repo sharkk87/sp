@@ -32,10 +32,10 @@ def main():
             data = soup.find('table', class_='catalog-table').find_all('tr')
 
             for i in data:
-                name = i.find('td', class_='art name').find('a').text.split()
+                name = i.find('td', class_='name').find('a').text.split()
                 name = ' '.join(name)
 
-                url = URL[:19] + i.find('td', class_='art name').find('a').get('href')
+                url = URL[:19] + i.find('td', class_='name').find('a').get('href')
 
                 url_image = i.find('td', class_='pic').find('img').get('src')
                 url_image = 'http://www.tdsot.ru' + url_image
