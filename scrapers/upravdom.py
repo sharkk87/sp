@@ -46,7 +46,7 @@ def get_data(soup, title='УправДом', available='В наличии'):
 @timer
 def main():
     soup = Scraper.get_soup(URL)
-    soup_data = soup.find('div', class_='main-container').find_all('div', class_='container')[1].find_all('div', 'col-sm-6')
+    soup_data = soup.find('div', class_='main-container').find('div', class_='dark').find('div', class_='container').find_all('div', 'col-sm-6')
     main_links = (URL + link.find('a').get('href') + SHOW_50 for link in soup_data)
 
     data_list = []
