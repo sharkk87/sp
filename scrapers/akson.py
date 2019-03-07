@@ -11,7 +11,7 @@ BASEDIR = os.path.abspath(os.path.dirname(__file__))
 URL = 'https://m.akson.ru/c/'
 CITY = '?TP_CITY_CODE=vologda'
 
-BAD_URLS = ['Постер на заказ', 'Автотовары', 'Спецпредложения']
+BAD_URLS = ['Постер на заказ', 'Автотовары', 'Спецпредложения', 'Акции']
 
 chrome_options = Options()
 # chrome_options.add_argument('--disable-extensions')
@@ -37,12 +37,12 @@ def show_more():
     count = 0
     while count != len(driver.find_elements_by_xpath("//div[@class='mobileListingContainer']/div[@class='mobileListingItem']")):
         count = len(driver.find_elements_by_xpath("//div[@class='mobileListingContainer']/div[@class='mobileListingItem']"))
+        print(count)
 
         try:
             add_data = driver.find_element_by_class_name('mobileListingLazyLoader')
             driver.execute_script('arguments[0].scrollIntoView();', add_data)
             add_data.click()
-            print(count)
             sleep(0.7)
         except ElementNotVisibleException:
             pass
@@ -71,10 +71,13 @@ def dfs():
     if text == 'Спецпредложения':
         print('Finish')
     else:
-        back = driver.find_element_by_xpath("//div[@class='mobileContentContainer']/*/div[@class='leftFloat mobileListingSectionCaption']")
-        driver.execute_script('arguments[0].scrollIntoView();', back)
-        driver.execute_script('scroll(0, -250);')
-        back.click()
+        try:
+            back = driver.find_element_by_xpath("//div[@class='mobileContentContainer']/*/div[@class='leftFloat mobileListingSectionCaption']")
+            driver.execute_script('arguments[0].scrollIntoView();', back)
+            driver.execute_script('scroll(0, -250);')
+            back.click()
+        except NoSuchElementException:
+            print('Finish')
 
 
 def get_data():
