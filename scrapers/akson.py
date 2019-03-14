@@ -43,7 +43,7 @@ def show_more():
             add_data = driver.find_element_by_class_name('mobileListingLazyLoader')
             driver.execute_script('arguments[0].scrollIntoView();', add_data)
             add_data.click()
-            sleep(0.7)
+            sleep(2)
         except ElementNotVisibleException:
             pass
 
@@ -103,7 +103,10 @@ def get_data():
         price = item.find('span', class_='mobileListingItemPriceNumber').text
 
         try:
-            available = item.find('span', class_='avail-sticker').text
+            available = item.find('span', class_='avail-sticker').text.capitalize()
+
+            if available == 'Выставочный образец':
+                available = 'В наличии'
         except AttributeError:
             available = 'Нет в наличии'
 

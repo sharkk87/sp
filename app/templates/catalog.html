@@ -20,10 +20,17 @@
           <input class="search-form__input-text" id="search-text" type="text" name="q" value="{{ request.args.get('q', '') }}"
                  placeholder="Введите название товара">
 
-          <p class="search-form__text">
-            Например: <a href="{{ url_for('catalog', q='клей боларс стандарт 25 кг') }}" class="search-form__example">клей боларс стандарт 25 кг</a>
-            или <a href="{{ url_for('catalog', q='(кнауф knauf) (fliesen флизен) (плюс plus) 25 кг') }}" class="search-form__example">(кнауф knauf) (fliesen флизен) (плюс plus) 25 кг</a>
-          </p>
+          <div class="toggle-button">
+            <label class="checkbox">
+              <input type="checkbox" name="checkbox" value="no_price" {% if 'no_price' in checkboxs %} checked {% endif %}>
+              <div class="checkbox__text">Без цены</div>
+            </label>
+
+            <label class="checkbox">
+              <input type="checkbox" name="checkbox" value="available" {% if 'available' in checkboxs %} checked {% endif %}>
+              <div class="checkbox__text">Наличие</div>
+            </label>
+          </div>
         </div>
 
         <button class="search-form__button button" type="submit">Найти</button>
@@ -47,7 +54,7 @@
         {% else %}
         <img src="{{ item.url_image }}" class="catalog-list__image">
         {% endif %}
-
+        <p class="catalog-list__available">{{ item.available|lower }}</p>
         {% if item.price %}
         <p class="catalog-list__price">{{ '{:.2f}'.format(item.price) }} &#8381</p>
         {% else %}
@@ -69,7 +76,7 @@
           {% endif %}>
         <a
             {% if page == pages.page %}
-            {% else %} href="./?q={{ user_query_output }}&page={{ page }}"
+            {% else %} href="./?q={{ user_query_output }}&page={{ page }}&checkbox={{ checkboxs[0] }}&checkbox={{ checkboxs[1] }}"
             {% endif %}>{{ page }}
         </a>
       </li>

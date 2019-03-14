@@ -54,6 +54,17 @@ def catalog():
     q = request.args.get('q')
     q = ' '.join(q.split()).lower()
 
+    checkboxs = request.args.getlist('checkbox')
+    no_price = models.Products.price != 0
+    available = models.Products.available == 'В наличии'
+
+    filters_checkbox = []
+    if checkboxs:
+        if 'no_price' in checkboxs:
+            filters_checkbox.append(no_price)
+        if 'available' in checkboxs:
+            filters_checkbox.append(available)
+
     if q == ' ':
         user_query = get_query('Вы ничего не запросили!')
         user_query_output = 'Вы ничего не запросили!'
@@ -80,7 +91,7 @@ def catalog():
             and_(
                 models.Products.title.contains(i) for i in user_query if isinstance(i, str)
             )
-        ).order_by(models.Products.price)
+        ).order_by(models.Products.price).filter(*filters_checkbox)
     elif len(count_or) == 2:
         data = models.Products.query.filter(
             or_(
@@ -92,7 +103,7 @@ def catalog():
             and_(
                 models.Products.title.contains(i) for i in user_query if isinstance(i, str)
             )
-        ).order_by(models.Products.price)
+        ).order_by(models.Products.price).filter(*filters_checkbox)
     elif len(count_or) == 3:
         data = models.Products.query.filter(
             or_(
@@ -107,16 +118,16 @@ def catalog():
             and_(
                 models.Products.title.contains(i) for i in user_query if isinstance(i, str)
             )
-        ).order_by(models.Products.price)
+        ).order_by(models.Products.price).filter(*filters_checkbox)
     else:
         data = models.Products.query.filter(
             and_(
                 models.Products.title.contains(i) for i in user_query if isinstance(i, str)
             )
-        ).order_by(models.Products.price)
+        ).order_by(models.Products.price).filter(*filters_checkbox)
 
     data_total = len(data.all())
 
     pages = data.paginate(page=page, per_page=64)
 
-    return render_template('catalog.html', data=data, pages=pages, data_total=data_total, user_query=user_query, user_query_output=user_query_output)
+    return render_template('catalog.html', data=data, pages=pages, data_total=data_total, user_query=user_query, user_query_output=user_query_output, checkboxs=checkboxs)

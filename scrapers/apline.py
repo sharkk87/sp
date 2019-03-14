@@ -54,7 +54,8 @@ def main():
 
                 price = i.find('div', class_='soloprice').text.strip()
 
-                available = i.find('div', class_='compare_and_stores').find('div', class_='stores').text.strip()
+                # available = i.find('div', class_='compare_and_stores').find('div', class_='stores').text.strip()
+                available = 'В наличии'
 
                 data = {'title': title, 'name': name, 'price': price, 'available': available, 'url': url, 'url_image': url_image}
                 data_list.append(data)
