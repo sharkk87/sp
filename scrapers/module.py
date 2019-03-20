@@ -14,8 +14,11 @@ class Scraper:
 
     @staticmethod
     def get_soup(url, verify=True):
+        headers = {
+            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
+        }
         if verify:
-            html = requests.get(url)
+            html = requests.get(url, headers=headers)
             soup = BeautifulSoup(html.text, 'lxml')
             return soup
         else:
