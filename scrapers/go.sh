@@ -11,6 +11,7 @@ python sanvol.py >> sanvol.log ;                        # 12000 in 30 (requests)
 python upravdom.py >> upravdom.log ;                    # 1300 in 2 (requests)
 python evrostroy.py >> evrostroy.log ;                  # 20000 in 35 (selenium)
 python idd.py >> idd.log ;                              # 107000 in 90 (requests)
+python cov.py >> cov.log ;                              # 3800 in 3 (requests)
 python tdsot.py >> tdsot.log ;                          # 13000 in 3 (requests)
 # python akson.py >> akson.log ;                        # 35000 in 120 (selenium)
 wait
