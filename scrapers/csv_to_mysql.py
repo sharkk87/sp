@@ -9,7 +9,7 @@ from app.models import Products
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-shop = ['apline', 'bober', 'centrsm', 'kontinent', 'lider', 'sanvol', 'tdsot', 'upravdom', 'evrostroy', 'akson', 'idd']
+shop = ['apline', 'bober', 'centrsm', 'kontinent', 'lider', 'sanvol', 'tdsot', 'upravdom', 'evrostroy', 'akson', 'idd', 'cov']
 
 
 def get_last_files():
@@ -47,6 +47,8 @@ def get_last_files():
         elif name_file.startswith('akson'):
             shop_dic[name_file].append((date_file, file))
         elif name_file.startswith('idd'):
+            shop_dic[name_file].append((date_file, file))
+        elif name_file.startswith('cov'):
             shop_dic[name_file].append((date_file, file))
 
     last_list = []
