@@ -58,7 +58,7 @@ def get_data():
 
         available = item.find('div', class_='to-basket').find('span', class_='add-to-basket-popup').previous_element
         if available == 'Заказать':
-            available = 'Нет в наличии'
+            available = 'Под заказ'
         elif available == 'В корзину':
             available = 'В наличии'
 
