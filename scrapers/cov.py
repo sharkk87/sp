@@ -8,7 +8,7 @@ data_list = []
 
 def get_data(soup):
     global data_list
-    title = 'Центр отопления и вентиляции'
+    title = 'Центр Отопл и Вент'
 
     data = soup.find_all('div', recursive=False)
     for i in data:
