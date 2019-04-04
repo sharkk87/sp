@@ -78,6 +78,7 @@ def dfs():
             back.click()
         except NoSuchElementException:
             print('Finish')
+            driver.back()
 
 
 def get_data():
