@@ -11,7 +11,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 shop = ['apline',
         'bober',
-        'centrsm',
         'kontinent',
         'lider',
         'sanvol',
@@ -19,8 +18,10 @@ shop = ['apline',
         'upravdom',
         # 'evrostroy',
         'akson',
-        'idd',
         'cov',
+        'edison',
+        'centrsm',
+        'idd',
         ]
 
 
@@ -62,7 +63,8 @@ def get_last_files():
             shop_dic[name_file].append((date_file, file))
         elif name_file.startswith('cov'):
             shop_dic[name_file].append((date_file, file))
-
+        elif name_file.startswith('edison'):
+            shop_dic[name_file].append((date_file, file))
     last_list = []
     for i, v in shop_dic.items():
         last_list.append(sorted(v, reverse=True)[0][1])
