@@ -57,6 +57,7 @@ def main():
 
                 url = i.find('a', class_='body').get('href')
                 url = 'http://magazinbober.ru' + url
+                url = url.replace('gorod-vologda/', '')
 
                 try:
                     url_image = i.find('span', class_='img-wrap').find('img').get('src')

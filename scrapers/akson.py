@@ -43,7 +43,7 @@ def show_more():
             add_data = driver.find_element_by_class_name('mobileListingLazyLoader')
             driver.execute_script('arguments[0].scrollIntoView();', add_data)
             add_data.click()
-            sleep(2)
+            sleep(2.5)
         except ElementNotVisibleException:
             pass
 
