@@ -20,6 +20,7 @@ shop = ['apline',
         'akson',
         'cov',
         'edison',
+        'eltsnab',
         'centrsm',
         'idd',
         ]
@@ -64,6 +65,8 @@ def get_last_files():
         elif name_file.startswith('cov'):
             shop_dic[name_file].append((date_file, file))
         elif name_file.startswith('edison'):
+            shop_dic[name_file].append((date_file, file))
+        elif name_file.startswith('eltsnab'):
             shop_dic[name_file].append((date_file, file))
     last_list = []
     for i, v in shop_dic.items():
